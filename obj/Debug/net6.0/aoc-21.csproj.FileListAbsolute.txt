@@ -1,0 +1,15 @@
+/Users/jocrossick/Documents/repos/aoc-21/bin/Debug/net6.0/aoc-21
+/Users/jocrossick/Documents/repos/aoc-21/bin/Debug/net6.0/aoc-21.deps.json
+/Users/jocrossick/Documents/repos/aoc-21/bin/Debug/net6.0/aoc-21.runtimeconfig.json
+/Users/jocrossick/Documents/repos/aoc-21/bin/Debug/net6.0/aoc-21.dll
+/Users/jocrossick/Documents/repos/aoc-21/bin/Debug/net6.0/ref/aoc-21.dll
+/Users/jocrossick/Documents/repos/aoc-21/bin/Debug/net6.0/aoc-21.pdb
+/Users/jocrossick/Documents/repos/aoc-21/obj/Debug/net6.0/aoc-21.csproj.AssemblyReference.cache
+/Users/jocrossick/Documents/repos/aoc-21/obj/Debug/net6.0/aoc-21.GeneratedMSBuildEditorConfig.editorconfig
+/Users/jocrossick/Documents/repos/aoc-21/obj/Debug/net6.0/aoc-21.AssemblyInfoInputs.cache
+/Users/jocrossick/Documents/repos/aoc-21/obj/Debug/net6.0/aoc-21.AssemblyInfo.cs
+/Users/jocrossick/Documents/repos/aoc-21/obj/Debug/net6.0/aoc-21.csproj.CoreCompileInputs.cache
+/Users/jocrossick/Documents/repos/aoc-21/obj/Debug/net6.0/aoc-21.dll
+/Users/jocrossick/Documents/repos/aoc-21/obj/Debug/net6.0/ref/aoc-21.dll
+/Users/jocrossick/Documents/repos/aoc-21/obj/Debug/net6.0/aoc-21.pdb
+/Users/jocrossick/Documents/repos/aoc-21/obj/Debug/net6.0/aoc-21.genruntimeconfig.cache
