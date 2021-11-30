@@ -1,0 +1,4 @@
+/bin
+[Dd]ebug/
+/obj
+.DS_Store*
