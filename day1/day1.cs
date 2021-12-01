@@ -7,28 +7,41 @@ class Day1
         Day1.solve2();
     }
 
-    static void solve1() {
+    static void solve1()
+    {
         string[] lines = read("input1");
         int[] data = lines.Select(line => Int32.Parse(line)).ToArray();
 
         int count = 0;
-        for (int i = 0; i < data.Length; i++) 
+        for (int i = 0; i < data.Length; i++)
         {
-            if (i > 0 && data[i] > data[i-1]) {
+            if (i > 0 && data[i] > data[i - 1])
+            {
                 count++;
             }
         }
 
         logOutput(count);
     }
-    static void solve2() {
+    static void solve2()
+    {
         string[] lines = read("input1");
         int[] data = lines.Select(line => Int32.Parse(line)).ToArray();
 
-        int count = 0;
-        for (int i = 0; i < data.Length; i++) 
+        int[] threeLineSum = data.Select((line, index) =>
         {
-            if (i > 0 && data[i] > data[i-1]) {
+            if (index > 1 && index < lines.Length)
+            {
+                return line + data[index - 1] + data[index - 2];
+            }
+            return 0;
+        }).ToArray();
+
+        int count = 0;
+        for (int i = 3; i < threeLineSum.Length; i++)
+        {
+            if (threeLineSum[i] > threeLineSum[i - 1])
+            {
                 count++;
             }
         }
@@ -40,9 +53,9 @@ class Day1
         return System.IO.File.ReadAllLines(@"day1/data/" + filename + ".txt");
     }
 
-    static void logOutput(string[] lines)
+    static void logOutput(int[] lines)
     {
-        foreach (string line in lines)
+        foreach (int line in lines)
         {
             // Use a tab to indent each line of the file.
             Console.WriteLine("\t" + line);
