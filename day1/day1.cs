@@ -53,15 +53,6 @@ class Day1
         return System.IO.File.ReadAllLines(@"day1/data/" + filename + ".txt");
     }
 
-    static void logOutput(int[] lines)
-    {
-        foreach (int line in lines)
-        {
-            // Use a tab to indent each line of the file.
-            Console.WriteLine("\t" + line);
-        }
-    }
-
     static void logOutput(int line)
     {
         Console.WriteLine("Output is: " + line);

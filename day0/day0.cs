@@ -10,9 +10,9 @@ class Day0
         return System.IO.File.ReadAllLines(@"day0/data/" + filename + ".txt");
     }
 
-    static void logOutput(string[] lines)
+    static void logOutput<T>(T[] lines)
     {
-        foreach (string line in lines)
+        foreach (T line in lines)
         {
             // Use a tab to indent each line of the file.
             Console.WriteLine("\t" + line);
