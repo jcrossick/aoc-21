@@ -20,7 +20,6 @@ class Day1
                 count++;
             }
         }
-
         logOutput(count);
     }
     static void solve2()
