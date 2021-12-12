@@ -1,0 +1,1 @@
+console.log("Hello AOC 2021");
