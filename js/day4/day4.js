@@ -46,7 +46,7 @@ function checkForWinner(board) {
   return false;
 }
 
-function findWinner(input) {
+function findFirstWinner(input) {
   let winningBoards = [];
   let drawCount = 0;
 
@@ -57,21 +57,42 @@ function findWinner(input) {
     drawCount++;
   }
   if (winningBoards.length > 1) {
-      console.log("Was expecting a single winning board but got ", winningBoards);
+    console.log("Was expecting a single winning board but got ", winningBoards);
   }
-  return [input.draw[drawCount-1], winningBoards[0]];
+  return [input.draw[drawCount - 1], winningBoards[0]];
+}
+
+function findLastBoard(input) {
+  let drawCount = 0;
+  let boards = input.boards;
+  while (boards.length > 1) {
+    boards = boards
+      .map((board) => markBoard(input.draw[drawCount], board))
+      .filter((board) => !checkForWinner(board));
+    drawCount++;
+  }
+
+  let winningBoard = boards[0];
+  let hasWon = false;
+  while (!hasWon) {
+      winningBoard = markBoard(input.draw[drawCount], winningBoard);
+      hasWon = checkForWinner(winningBoard);
+      drawCount++;
+  }
+
+  return [input.draw[drawCount - 1], winningBoard];
 }
 
 function calculateWinner(winningNumber, winningBoard) {
-    let sum = 0;
-    winningBoard.forEach(line => {
-        line.forEach(number => {
-            if (number != "X") {
-                sum = sum+parseInt(number);
-            }
-        })
-    })
-    return winningNumber*sum;
+  let sum = 0;
+  winningBoard.forEach((line) => {
+    line.forEach((number) => {
+      if (number != "X") {
+        sum = sum + parseInt(number);
+      }
+    });
+  });
+  return winningNumber * sum;
 }
 
 function test() {
@@ -157,20 +178,38 @@ function test() {
     "test failed, expected board winner2 to return true"
   );
 
-  const [winningNumber, winningBoard] = findWinner(parseResult);
-  console.assert(winningNumber == 24, `Expected draw number of winning detail to be 24 but was ${winningNumber}`);
+  const [winningNumber, winningBoard] = findFirstWinner(parseResult);
+  console.assert(
+    winningNumber == 24,
+    `Expected draw number of winning detail to be 24 but was ${winningNumber}`
+  );
 
   const value = calculateWinner(winningNumber, winningBoard);
-  console.assert(value == 4512, `Expected to have test overall number of 4512 but was ${value}`);
+  console.assert(
+    value == 4512,
+    `Expected to have test overall number of 4512 but was ${value}`
+  );
+
+  const [lastNumber, lastBoard] = findLastBoard(parseResult);
+  console.assert(
+    lastNumber == 13,
+    `Expected draw number of winning detail to be 13 but was ${lastNumber}`
+  );
+  console.log("Last won board was", lastBoard);
 }
 
 test();
 
 function day4() {
   const input = parseFile("/input1.txt");
-  const [winningNumber, winningBoard] = findWinner(input);
+
+  const [winningNumber, winningBoard] = findFirstWinner(input);
   const value = calculateWinner(winningNumber, winningBoard);
-  console.log("Day 4 answer is", value);
+  console.log("Day 4 part 1 answer is", value);
+
+  const [lastWonNumber, lastWonBoard] = findLastBoard(input);
+  const valueLast = calculateWinner(lastWonNumber, lastWonBoard);
+  console.log("Day 4 part 2 answer is", valueLast);
 }
 
 module.exports = { day4 };
