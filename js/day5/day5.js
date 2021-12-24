@@ -7,44 +7,53 @@ class Coord {
   end_row = 0;
   isHorizontalLine = false;
   isVerticalLine = false;
+  isDiagonalForwardLine = false;
+  isDiagonalBackwardLine = false;
   lineLength = 0;
   constructor(inputLine) {
-      const x1 = parseInt(inputLine[0][0]);
-      const x2 = parseInt(inputLine[1][0]);
-      const y1 = parseInt(inputLine[0][1]);
-      const y2 = parseInt(inputLine[1][1]);
-      console.assert(!isNaN(x1) && !isNaN(x2) && !isNaN(y1) && !isNaN(y2), `Something failed NaN check, ${inputLine}`);
-    //3,4 -> 9,4: 3rd char on 4th row to 9th char on 4th row
-    if (x1 <= x2) {
-      this.start_col = x1;
-      this.end_col = x2;
-    } else {
+    const x1 = parseInt(inputLine[0][0]);
+    const x2 = parseInt(inputLine[1][0]);
+    const y1 = parseInt(inputLine[0][1]);
+    const y2 = parseInt(inputLine[1][1]);
+    console.assert(
+      !isNaN(x1) && !isNaN(x2) && !isNaN(y1) && !isNaN(y2),
+      `Something failed NaN check, ${inputLine}`
+    );
+
+    this.isHorizontalLine = y1 == y2;
+    this.isVerticalLine = x1 == x2;
+    const isDiagonalLine = Math.abs(x1 - x2) == Math.abs(y1 - y2);
+    if (isDiagonalLine) {
+      this.isDiagonalForwardLine = x1 - x2 == y1 - y2;
+      this.isDiagonalBackwardLine = x2 - x1 == y1 - y2;
+    }
+
+    if (
+      (this.isHorizontalLine && x1 > x2) ||
+      (this.isVerticalLine && y1 > y2) ||
+      (this.isDiagonalForwardLine && x1 > x2) ||
+      (this.isDiagonalBackwardLine && x1 > x2)
+    ) {
       this.start_col = x2;
       this.end_col = x1;
-    }
-    if (y1 <= y2) {
-      this.start_row = y1;
-      this.end_row = y2;
-    } else {
       this.start_row = y2;
       this.end_row = y1;
+    } else {
+      this.start_col = x1;
+      this.end_col = x2;
+      this.start_row = y1;
+      this.end_row = y2;
     }
-    this.isHorizontalLine = this.start_row == this.end_row;
-    this.isVerticalLine = this.start_col == this.end_col;
-    if (this.isVerticalLine) {
-        this.lineLength = this.end_row - this.start_row + 1;
+
+    if (
+      this.isVerticalLine ||
+      this.isDiagonalForwardLine ||
+      this.isDiagonalBackwardLine
+    ) {
+      this.lineLength = Math.abs(this.end_row - this.start_row) + 1;
+    } else if (this.isHorizontalLine) {
+      this.lineLength = this.end_col - this.start_col + 1;
     }
-    else if (this.isHorizontalLine) {
-        this.lineLength = this.end_col - this.start_col + 1
-    }
-    console.assert(
-      this.start_col <= this.end_col,
-      "Column val wrong way round"
-    );
-    console.assert(
-      this.start_row <= this.end_row,
-      "Column val wrong way round"
-    );
   }
 }
 
@@ -95,6 +104,28 @@ function markVerticalLines(map, ventLines) {
   });
 }
 
+function markDiagonalForwardLines(map, ventLines) {
+  const diagonalForwardLines = ventLines.filter(
+    (line) => line.isDiagonalForwardLine
+  );
+  diagonalForwardLines.forEach((line) => {
+    for (let i = 0; i < line.lineLength; i++) {
+      map[line.start_row + i][line.start_col + i]++;
+    }
+  });
+}
+
+function markDiagonalBackwardLines(map, ventLines) {
+  const diagonalBackwardLines = ventLines.filter(
+    (line) => line.isDiagonalBackwardLine
+  );
+  diagonalBackwardLines.forEach((line) => {
+    for (let i = 0; i < line.lineLength; i++) {
+      map[line.start_row - i][line.start_col + i]++;
+    }
+  });
+}
+
 function countOverlaps(map) {
   let count = 0;
   map.forEach((line) =>
@@ -136,18 +167,26 @@ function test() {
 
   markHorizonalLines(testMap, testFile);
   markVerticalLines(testMap, testFile);
-
   const overlaps = countOverlaps(testMap);
   console.assert(overlaps == 5, `Expected 5 overlaps but got ${overlaps}`);
+
+  markDiagonalForwardLines(testMap, testFile);
+  markDiagonalBackwardLines(testMap, testFile);
+  const overlapsPt2 = countOverlaps(testMap);
+  console.log(testMap);
+  console.assert(overlapsPt2 == 12, `Expected 12 overlaps but got ${overlaps}`);
+
 }
 
-//test();
+test();
 
 function solve(file) {
   const entry = parseFile(file);
   const map = setupMap(entry);
   markHorizonalLines(map, entry);
   markVerticalLines(map, entry);
+  markDiagonalForwardLines(map, entry);
+  markDiagonalBackwardLines(map, entry);
   return countOverlaps(map);
 }
 
