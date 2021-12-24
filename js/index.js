@@ -1,5 +1,5 @@
-const { day4 } = require("./day4/day4.js");
+const { day5 } = require("./day5/day5.js");
 
 console.log("Hello AOC 2021");
 
-day4();
+day5();
